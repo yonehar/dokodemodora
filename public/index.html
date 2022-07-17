@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="js">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+  <title>どこでもドラえもん日本旅行ゲーム用メモ</title>
+
+  <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="icon-192x192.png">
+
+  <link rel="stylesheet" href="css/main.css?ver=3.8">
+</head>
+<body>
+
+  <div id="app" v-cloak>
+    <h1>どこでもドラえもん日本旅行ゲーム用メモ</h1>
+    
+    <details class="setting">
+      <summary>設定</summary>
+      <table>
+        <tr>
+          <th>タイプ</th>
+          <td><label><input type="radio" value="0" v-model="mapType">日本</label>　<label><input type="radio" value="1" v-model="mapType">世界（仮）</label></td>
+        </tr>
+        <tr>
+          <th>メンバー</th>
+          <td><input type="text" v-model="newMember"><button @click="addMember">追加</button></td>
+        </tr>
+      </table>
+    </details>
+    <section class="result">
+      <table>
+        <colgroup>
+          <col>
+          <col v-for="(member,index) in members" :class="{complete:member.isComplete}">
+        </colgroup>
+        <tr class="membercell">
+          <th class="fix">&nbsp;</th><th v-for="(member,index) in members">{{ member.name }} <button v-if="member.name !== '私'" class="delete" @click="deleteMember(index)">✕</button></th>
+        </tr>
+        <tr>
+          <th class="fix">スタート</th><td v-for="member in members"><input :class="{caution:member.isComplete}" type="text"></td>
+        </tr>
+        <tr v-for="(item,i) in area">
+          <th class="fix">{{ item.name }}</th>
+          <td v-for="(member,j) in members" :class="{complete:member.isComplete}">
+            <select v-model.trim="member.dokodoras[i]" @change="checkComplete(j,i)">
+                <option value=""></option>
+                <option v-for="(dora,j) in item.doras" value="{{ dora }}">{{ dora }}</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th class="fix">宇宙</th><td v-for="member in members"><input type="text"></td>
+        </tr>
+      </table>
+
+      <div class="resetbtn"><button @click="deleteInput">入力した内容をリセット</button></div>
+      <div class="resetbtn resetbtn2"><button @click="deleteMember('all')">私以外のメンバーを削除</button></div>
+    </section>
+  </div>
+
+  <script src="https://unpkg.com/vue@3.1.5"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
