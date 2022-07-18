@@ -46,7 +46,7 @@
           <td v-for="(member,j) in members" :class="{complete:member.isComplete}">
             <select v-model.trim="member.dokodoras[i]" @change="checkComplete(j,i)">
                 <option value=""></option>
-                <option v-for="(dora,j) in item.doras" value="{{ dora }}">{{ dora }}</option>
+                <option v-for="(dora,k) in item.doras" :value="dora">{{ dora }}</option>
             </select>
           </td>
         </tr>
